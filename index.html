@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="umbrella.svg"></head>
+<title>Check today's weather..</title>
 <script src="https://kit.fontawesome.com/ed247afa0e.js" crossorigin="anonymous"></script>
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap" rel="stylesheet">
-
 <body>
   <div id="content">
+    <img id="alert-btn" src="7efd0ac0c33c33338d98.svg">
     <div id="main-header">
       <form>
         <input id="city-input" type="text" placeholder="Enter the city..">
@@ -19,9 +19,22 @@
         <input type="submit" value="Search">
       </form>
     </div>
-    <p id="debug"></p>
+    <div id="error"></div>
     <div id="main"></div>
+    <div id="modal">
+      <img src="c170133f8f7d7ca0beb2.gif" alt="loading DOM elements"  width=250 height: 250px/>
+    </div>
+    <div id="alert-desc">
+      <div id="alert-header">
+        <p>!! Alert</p>
+      </div>
+      <div id="alert-flex">
+        <div id="alert-events"></div>
+        <div id="alert-text">
+          <button id="alert-close">Close</button>
+        </div>
+      </div>
+    </div>
   </div>
 <script src="app.main.js"></script></body>
-
 </html>
