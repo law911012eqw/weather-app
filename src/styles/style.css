@@ -8,8 +8,24 @@ body {
 }
 
 form {
+  padding-top: 9px;
+  padding-bottom: 19px;
   text-align: center;
-  margin: 6px;
+}
+
+#modal {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(1, 1, 1, 0.3);
+  z-index: 10;
+}
+
+#main-header {
+  background: #2b2416;
+  background: linear-gradient(210deg, #2b2416 0%, #95685d 41%, #deb09c 84%);
 }
 
 #upper-main {
@@ -20,8 +36,8 @@ form {
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
-  background: #f2ae1c;
-  height: 65vh;
+  background: #ffc310;
+  height: 68vh;
   width: 100%;
 }
 
@@ -34,6 +50,7 @@ form {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  background: #f2ae1c;
 }
 
 #current-temp {
@@ -97,7 +114,7 @@ form {
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
-  background: #da9a10;
+  background: #f2ae1c;
   height: 25vh;
   width: 100%;
 }
