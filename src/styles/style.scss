@@ -1,0 +1,88 @@
+$main-font-family: 'Ubuntu', monospace;
+
+$upper-morning-bg: rgb(242, 174, 28);
+$lower-morning-bg: rgb(218, 154, 16);
+
+body{
+    font-family: $main-font-family;
+    color: white;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+form{
+    text-align: center;
+    margin: 6px;
+}
+#upper-main{
+    display: flex;
+    flex-direction: row;
+    background: $upper-morning-bg;
+    height:65vh;
+    width:100%;
+}
+#upper-main > div {
+    width: 50%;
+    height: inherit;
+}
+#daily-main{
+    display:flex;
+}
+
+//current weather
+#current-temp{
+    font-size: 14vw;
+    text-align: center;
+    margin: 20px 0;
+}
+#current-upper{
+    display: flex;
+    justify-content: space-between;
+}
+#current-upper-right{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2vw;
+}
+#current-icon {
+    display: block;
+    margin-left: 5px;
+}
+.current-contents{
+    font-size: 30px;
+    margin-left: 5px;
+    margin-top: 5px;
+}
+.choose-temp {
+    padding: 0 15px;
+    cursor: pointer;
+}
+#current-lower {
+    display: flex;
+    justify-content: space-between;
+}
+//hourly weather
+#lower-main{
+    display: flex;
+    flex-direction: row;
+    background: $lower-morning-bg;
+    height:25vh;
+    width:100%;
+    .hrly-contents > *{
+        text-align: center;
+    }
+    .hrly-icons {
+        display: block;
+        margin: 0 auto;
+    }
+    .hrly-temp, .hrly-time{
+        margin-top: 8px;
+        text-align: center;
+        font-size: 24px;
+    }
+}
+#lower-main > div {
+    flex-grow: 1;
+    height: inherit;
+}
