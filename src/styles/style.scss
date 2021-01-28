@@ -1,12 +1,14 @@
 $main-font-family: 'Ubuntu', monospace; //main font
 
+//heights and widths
+$upper-main-height: 68vh;
 //background-colors
 $upper-morning-bg: rgb(255, 195, 16);
 $lower-morning-bg: rgb(242, 174, 28);
 
 //list of color basedon temperature and current hour
 // warm < ------ > cool
-$morns: rgb(255, 195, 16), rgb(242, 174, 28),rgb(218, 174, 16);
+$morns: rgb(255, 195, 16), rgb(248, 185, 23),rgb(242, 174, 28),rgb(218, 174, 16);
 $noon: rgb(45, 195, 16);
 
 body{
@@ -38,18 +40,38 @@ form{
     display: flex;
     flex-direction: row;
     background: $upper-morning-bg;
-    height:68vh;
+    height: $upper-main-height;
     width:100%;
 }
 #upper-main > div {
     width: 50%;
     height: inherit;
 }
+
+// DAILY-SECTION
 #daily-main{
     display: flex;
-    background: $lower-morning-bg;
+    background: rgb(248, 185, 23);
+    #daily-container{
+        display: flex;
+        flex-wrap: wrap;
+        height: $upper-main-height;
+        width: 100%;
+        align-items: center;
+        .daily-wrappers{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 28%;
+            font-size: 20px;
+        }
+    }
 }
-
+.daily-temps{
+    font-size: 30px;
+    padding: 10px;
+}
 //current weather
 #current-temp{
     font-size: 14vw;
@@ -106,4 +128,8 @@ form{
 #lower-main > div {
     flex-grow: 1;
     height: inherit;
+}
+.choose-temp:hover{
+    text-decoration: underline;
+    padding-right: 20px;
 }

@@ -1,8 +1,8 @@
 import fetchData from './modules/fetch_data.js';
 import DOM from './modules/elements.js';
 import manage from './modules/helpers.js';
-import { convertTemp, windSpeedToMPH, windDegToDir } from './modules/units.js';
-import { convertTZ, formatHourMin, formatHourOnly, formatFullDate } from './modules/time.js';
+import { checkTempUnit, toggleTemp, convertTemp, windSpeedToMPH, windDegToDir } from './modules/units.js';
+import { convertTZ, formatHourMin, formatHourOnly, formatFullDate, formatShortDate } from './modules/time.js';
 import { getAreaFromCoordinates } from './modules/current_location.js';
 import { getAlert, toggleDisplay } from './modules/alert.js';
 import './styles/reset.css';
@@ -17,8 +17,8 @@ window.onload = () => {
 	manage.modifyAttr(DOM.modal, 'style', 'display: block;');
 	defaultLocation();
 	if (navigator.geolocation) {
-		manage.modifyAttr(DOM.modal, 'style', 'display: none;');
 		navigator.geolocation.getCurrentPosition(assignUserLocation);
+		manage.modifyAttr(DOM.modal, 'style', 'display: none;');
 	} else {
 		manage.modifyAttr(DOM.modal, 'style', 'display: none;');
 		console.log('Geolocation is not supported by this browser');
@@ -97,19 +97,7 @@ async function fetchWeatherData(data) {
 	console.log(fetchData.getWeatherURL());
 	console.log(fetchData.getAreaName());
 	displayInfo();
-}
-
-function displayInfo() {
-	DOM.main.textContent = '';
-	const upperMain = manage.crtElement('', 'upper-main', 'weather-container', 'div');
-	const lowerMain = manage.crtElement('', 'lower-main', 'weather-container', 'div');
-	const currentMain = manage.crtElement('', 'current-main', 'weather-container', 'div');
-	const dailyMain = manage.crtElement('', 'daily-main', 'weather-container', 'div');
-	DOM.main.append(upperMain, lowerMain);
-	upperMain.append(currentMain, dailyMain);
-	getHourlyData(lowerMain);
-	// getDailyData(dailyMain);
-	displayCurrentOutput(currentMain);
+	getAlert(weatherData); // get alert data
 }
 
 const getHourlyData = (parent) => {
@@ -145,15 +133,48 @@ function displayHourlyOutput(i, parent) {
 	hourlyMain.append(hourlyTime, hourlyTemp, hourlyIcon, hourlyFeels, hourlyHumidity);
 }
 
-const getDailyData = async (parent) => {
+const getDailyData = (parent) => {
+	const dailyContainer = manage.crtElement('', 'daily-container', '', 'div');
 	for (let i = 0; i < 6; i++) {
-		await displayDailyOutput(i, parent);
+		displayDailyOutput(i, dailyContainer);
 	}
+	parent.append(dailyContainer);
 };
 
-// function displayDailyOutput(i,parent){
-// const
-// }
+function displayDailyOutput(i, parent) {
+	// DOM instances
+	// temperature data from current object
+	let temp = weatherData.daily[i + 1].temp.night;
+	let feelsLike = weatherData.daily[i + 1].feels_like.night;
+	temp = convertTemp(temp);
+	feelsLike = convertTemp(feelsLike);
+
+	// get data with object destructuring
+	const { icon } = weatherData.daily[i + 1].weather[0];
+	const humidity = `${weatherData.daily[i + 1].humidity}%`;
+	const { timezone } = weatherData;
+
+	let date = new Date(); // get todays date
+	date.setDate(date.getDate() + (i + 1)); // accumulate date by one
+	const localDate = convertTZ(date, timezone); // get date based n timezone
+
+	// get wind speed and degree
+	const speed = `${windSpeedToMPH(weatherData.daily[i + 1].wind_speed)} mph :Wind Speed`;
+	const deg = `${windDegToDir(weatherData.daily[i + 1].wind_deg)} :Wind Degree`;
+
+	const dailyWrapper = manage.crtElement('', `daily-wrapper${i + 1}`, 'daily-wrappers', 'div');
+	const dailyTemp = manage.crtElement(`${temp}`, `daily-temp${i + 1}`, 'daily-temps', 'p');
+	const dailyFeels = manage.crtElement(`Feels like: ${feelsLike}`, `dailyfeels${i + 1}`, 'daily-contents', 'p');
+	const dailyIcon = manage.crtImg(getWeatherIcon(icon), `daily-icon${i + 1}`, 'daily-icons');
+	const dailyDate = manage.crtElement(formatShortDate(localDate), `daily-date${i + 1}`, 'daily-dates', 'p');
+	const dailyHumidity = manage.crtElement(`Humidity: ${humidity}`, `daily-humidity${i + 1}`, 'daily-contents', 'p');
+	const dailySpeed = manage.crtElement(speed, 'daily-spd', 'daily-contents', 'p');
+	const dailyDegree = manage.crtElement(deg, 'daily-deg', 'daily-contents', 'p');
+
+	parent.append(dailyWrapper);
+	dailyWrapper.append(dailyDate, dailyTemp, dailyIcon, dailyFeels,
+		dailyHumidity, dailySpeed, dailyDegree);
+}
 
 // display the weather data about the current hour/day
 function displayCurrentOutput(parent) {
@@ -181,8 +202,8 @@ function displayCurrentOutput(parent) {
 	// DOM elements in the upper right side of the current main
 	const upperRightSide = manage.crtElement('', 'current-upper-right', 'current-upper-right', 'div');
 	const currentIcon = manage.crtImg(getWeatherIcon(icon), 'current-icon', 'current-contents');
-	const tempCelcius = manage.crtElement(`${String.fromCharCode(176)}C`, 'tempC', 'choose-temp', 'div');
-	const tempFah = manage.crtElement(`${String.fromCharCode(176)}F`, 'tempF', 'choose-temp', 'div');
+	const tempCelcius = manage.crtElement(checkTempUnit(), 'tempC', 'choose-temp', 'div');
+	//const tempFah = manage.crtElement(`${String.fromCharCode(176)}F`, 'tempF', 'choose-temp', 'div');
 	// the element that contains the current temperature
 	const currentTemp = manage.crtElement(temp, 'current-temp', 'current-contents', 'p');
 	// the lower side container
@@ -195,23 +216,25 @@ function displayCurrentOutput(parent) {
 	const lowerRightSide = manage.crtElement('', 'current-lower-right', 'current-lower-right', 'div');
 	const currentSpeed = manage.crtElement(speed, 'current-speed', 'current-contents', 'p');
 	const currentDegree = manage.crtElement(deg, 'current-deg', 'current-contents', 'p');
-
 	currentLwrCont.append(lowerLeftSide, lowerRightSide);
 	lowerLeftSide.append(currentFeels, currentHumidity);
 	lowerRightSide.append(currentSpeed, currentDegree);
 	currentUprCont.append(upperLeftSide, upperRightSide);
 	upperLeftSide.append(currentLocation, currentDate, currentTime);
-	upperRightSide.append(currentIcon, tempCelcius, tempFah);
+	upperRightSide.append(currentIcon, tempCelcius);
 	parent.append(currentUprCont, currentTemp, currentLwrCont);
-	getAlert(weatherData); // get alert data
 	updateClock(); // auto refresh clock by 100
+	tempCelcius.addEventListener('click', () => {
+		toggleTemp();
+		displayInfo();
+	});
 }
 
-document.querySelectorAll('choose-temp').addEventListener('click', function(e) {
-	if(e.id == 'tempC'){
-		
-	}
-});
+// document.querySelectorAll('choose-temp').addEventListener('click', function(e) {
+// 	if(e.id == 'tempC'){
+
+// 	}
+// });
 function getWeatherIcon(icon) {
 	return `http://openweathermap.org/img/wn/${icon}@2x.png`;
 }
@@ -222,4 +245,18 @@ function updateClock() {
 	const currentTime = document.getElementById('current-time');
 	currentTime.textContent = formatHourMin(date);
 	setTimeout(updateClock, 1000);
+}
+
+//controller function
+function displayInfo() {
+	DOM.main.textContent = '';
+	const upperMain = manage.crtElement('', 'upper-main', 'weather-container', 'div');
+	const lowerMain = manage.crtElement('', 'lower-main', 'weather-container', 'div');
+	const currentMain = manage.crtElement('', 'current-main', 'weather-container', 'div');
+	const dailyMain = manage.crtElement('', 'daily-main', 'weather-container', 'div');
+	DOM.main.append(upperMain, lowerMain);
+	upperMain.append(currentMain, dailyMain);
+	getHourlyData(lowerMain);
+	getDailyData(dailyMain);
+	displayCurrentOutput(currentMain);
 }

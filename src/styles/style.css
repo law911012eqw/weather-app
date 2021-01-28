@@ -50,7 +50,43 @@ form {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  background: #f2ae1c;
+  background: #f8b917;
+}
+
+#daily-main #daily-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  height: 68vh;
+  width: 100%;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#daily-main #daily-container .daily-wrappers {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 28%;
+  font-size: 20px;
+}
+
+.daily-temps {
+  font-size: 30px;
+  padding: 10px;
 }
 
 #current-temp {
@@ -139,5 +175,10 @@ form {
       -ms-flex-positive: 1;
           flex-grow: 1;
   height: inherit;
+}
+
+.choose-temp:hover {
+  text-decoration: underline;
+  padding-right: 20px;
 }
 /*# sourceMappingURL=style.css.map */

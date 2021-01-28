@@ -1,3 +1,5 @@
+// helper functions
+// reusable functions that create/modify elements
 const manage = (() => ({
 	crtElement(eText, eId, eClass, eTag) {
 		const el = document.createElement(eTag);

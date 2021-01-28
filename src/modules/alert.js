@@ -31,19 +31,23 @@ const resetDisplay = () => { isDisplay = true; }; // reset display to true
 
 // validate whether alerts exists if it is or else then continue to the following condition
 function getAlert(data) {
+	// immediately display weather at first load if alert data existed
 	if (data.alerts) {
 		resetDisplay();
 		manage.modifyAttr(DOM.alertDesc, 'style', 'display: block;');
 		manage.modifyAttr(DOM.alertBtn, 'style', 'display: block;');
 		alertDisplay(data);
 		DOM.alertDesc.className = '';
-	} else {
+	} else { // otherwise, disallow visual alert elements to be seen
 		manage.modifyAttr(DOM.alertDesc, 'style', 'display: none;');
 		manage.modifyAttr(DOM.alertBtn, 'style', 'display: none;');
 		toggleDisplayBoolean();
 	}
 }
 
+// transition/alert div position manipulation by checking whether
+// is displayed or not
+// Note: It is always displayed at first load of weather data
 function toggleDisplay() {
 	if (isDisplay === true) {
 		manage.modifyAttr(DOM.modal, 'style', 'display: none;');

@@ -7,16 +7,21 @@ const OPTIONS = {
 	day: 'numeric',
 };
 
+const DAILY = {
+	weekday: 'short',
+	month: 'short',
+	day: 'numeric',
+};
 function convertTZ(date, tzString) {
 	return new Date((typeof date === 'string' ? new Date(date) : date).toLocaleString('en-US', {timeZone: tzString}));
 }
 
-//format -> HH:MM:SS AM/PM
+// format -> HH:MM:SS AM/PM
 function formatHourMin(date) {
 	let hours = date.getHours();
 	let minutes = date.getMinutes();
 	let seconds = date.getSeconds();
-	let ampm = hours >= 12 ? 'pm' : 'am';
+	const ampm = hours >= 12 ? 'pm' : 'am';
 	hours = hours % 12;
 	hours = hours ? hours : 12; // the hour '0' should be '12'
 	minutes = ('0'+minutes).slice(-2);
@@ -37,8 +42,21 @@ function formatHourOnly(date, i) {
 	return strTime;
 }
 
+function accumulateDays(date, i) {
+	let day = date.getDays() + i;
+
+}
+
 function formatFullDate(date) {
 	return date.toLocaleDateString('en-US', OPTIONS);
 }
-
-export { convertTZ, formatHourMin, formatHourOnly, formatFullDate }
+function formatShortDate(date) {
+	return date.toLocaleDateString('en-US', DAILY);
+}
+export {
+	convertTZ,
+	formatHourMin,
+	formatHourOnly,
+	formatFullDate,
+	formatShortDate,
+}

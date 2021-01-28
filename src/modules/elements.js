@@ -27,6 +27,8 @@ const DOM = (() => {
 		alertText,
 		alertClose,
 		modal,
+		// not in the best state but its functionality format the string based
+		// on the condition
 		strInput() {
 			if (!countryInput.value) {
 				if (!stateInput.value) {
@@ -48,6 +50,7 @@ const DOM = (() => {
 		},
 		locationInput() {
 			const str = `${cityInput.value},${stateInput.value},${countryInput.value}`;
+			// spaces are replace with '+' which is used for the string within URL
 			return str.split('').map((x) => (x == ' ' ? x = '+' : x)).join('');
 		},
 	};

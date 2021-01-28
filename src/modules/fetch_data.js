@@ -1,5 +1,7 @@
 import { LOCATION_API, WEATHER_API } from './server-route.js';
 
+// mainly for fetching API key
+// file for getting and setting [insert_string] directory name to complete URL
 const fetchData = (() => {
 	const part = 'minutely';
 	let lat = 1;
