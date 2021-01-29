@@ -1,32 +1,388 @@
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: inherit;
+          box-sizing: inherit;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: "Ubuntu", monospace;
+  color: white;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+      user-select: none;
+  font-size: 12px;
+}
+
+form {
+  padding-top: 9px;
+  padding-bottom: 19px;
+  text-align: center;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: bottom;
+     object-position: bottom;
+}
+
+#content {
+  overflow: auto;
+}
+
+#modal {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(1, 1, 1, 0.3);
+  z-index: 10;
+}
+
+#main-header {
+  height: 6vh;
+  background: #2b2416;
+  background: linear-gradient(210deg, #2b2416 0%, #95685d 41%, #deb09c 84%);
+}
+
+#forecast-header {
+  display: none;
+}
+
+#upper-main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  height: 68vh;
+  width: 100%;
+}
+
+#upper-main > div {
+  width: 50%;
+  height: inherit;
+}
+
+/*********** DAILY WEATHER SECTION *********/
+#daily-main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  height: 68vh;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#daily-main .daily-wrappers {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 28%;
+  font-size: clamp(1rem, 1vw, 2rem);
+}
+
+#daily-main .daily-wrappers .daily-lower {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  width: 100%;
+}
+
+#daily-main .daily-wrappers .daily-lower div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+#daily-main .daily-wrappers .daily-lower div div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.daily-temps {
+  font-size: clamp(1.4rem, 1.8vw, 3rem);
+  font-weight: 700;
+  padding: 10px;
+}
+
+.daily-feels {
+  opacity: 0.7;
+}
+
+.daily-contents {
+  margin: 0 5px;
+}
+
+/*******CURRENT WEATHER SECTION *******/
+#current-main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+#current-temp {
+  font-size: clamp(4.2rem, 11.5vw, 50rem);
+  text-align: center;
+  margin: 20px 0;
+}
+
+#current-upper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+#current-upper #current-upper-left > * {
+  font-size: clamp(1.2rem, 2.5vw, 4rem);
+}
+
+#current-upper #current-upper-left > * #current-location {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#current-upper #current-upper-right {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 2vw;
+}
+
+#current-icon {
+  display: block;
+  margin-left: 5px;
+}
+
+.current-contents {
+  font-size: clamp(1.4rem, 2vw, 3rem);
+  margin-left: 5px;
+  margin-top: 5px;
+}
+
+.choose-temp {
+  padding: 0 15px;
+  cursor: pointer;
+}
+
+#current-lower {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+#current-lower #current-lower-right > * {
+  text-align: end;
+}
+
+/********HOURLY WEATHER SECTION *********/
+#lower-main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  height: 25vh;
+  width: 100%;
+}
+
+#lower-main .hrly-contents > * {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: clamp(0.8rem, 1.1vw, 2.4em);
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+#lower-main .hrly-icons {
+  display: block;
+  margin: 0 auto;
+}
+
+#lower-main .hrly-temp, #lower-main .hrly-time {
+  margin-top: 8px;
+  font-size: clamp(1rem, 1.5vw, 4rem);
+}
+
+#lower-main .hrly-lower {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+#lower-main .hrly-lower div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#lower-main > div {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  height: inherit;
+}
+
+.choose-temp:hover {
+  border: 2px solid rgba(0, 0, 0, 0.3);
+}
+
+.choose-temp {
+  width: 70px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  margin-right: 20px;
+}
+
+/********** ICONS/GIF ************/
+#user-location {
+  -webkit-transform: scale(1.4);
+          transform: scale(1.4);
+  margin: 0 15px;
+  cursor: pointer;
+}
+
+#user-location:hover::after {
+  position: absolute;
+  content: attr(data-text);
+  bottom: -3.5em;
+  left: -5em;
+  background-color: #333;
+  color: white;
+  padding: .25em .5em;
+  font-size: .8em;
+  font-family: "Ubuntu", monospace;
+}
+
+.img-feels {
+  width: 12px;
+  height: 24px;
+}
+
+.img-spd, .img-deg {
+  width: 24px;
+  height: 24px;
+  opacity: 0.6;
+}
+
+.img-humidity {
+  -webkit-filter: invert(26%) sepia(85%) saturate(1799%) hue-rotate(201deg) brightness(86%) contrast(90%);
+          filter: invert(26%) sepia(85%) saturate(1799%) hue-rotate(201deg) brightness(86%) contrast(90%);
+}
+
+.loading-gif {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  top: 48%;
+  left: 48%;
+}
+
 #alert-btn {
   position: absolute;
   top: 1%;
   margin-left: 12px;
+  -webkit-filter: invert(53%) sepia(74%) saturate(4896%) hue-rotate(337deg) brightness(99%) contrast(86%);
+          filter: invert(53%) sepia(74%) saturate(4896%) hue-rotate(337deg) brightness(99%) contrast(86%);
   width: 30px;
   height: 30px;
-  cursor: pointer;
   z-index: 10;
 }
 
 #alert-btn:hover {
   -webkit-transform: rotateZ(14deg);
           transform: rotateZ(14deg);
+  cursor: pointer;
   -webkit-transition: -webkit-transform 400ms linear;
   transition: -webkit-transform 400ms linear;
   transition: transform 400ms linear;
   transition: transform 400ms linear, -webkit-transform 400ms linear;
 }
 
-#alert-desc {
+#alert-btn:hover::after {
   position: absolute;
-  left: 30%;
+  content: attr(data-text);
+  bottom: -3.5em;
+  left: -5em;
+  background-color: #333;
+  color: white;
+  padding: .25em .5em;
+  font-size: .8em;
+  font-family: "Ubuntu", monospace;
+}
+
+#alert-desc {
+  position: fixed;
+  left: 20%;
   top: 20%;
-  width: 800px;
-  height: 500px;
+  width: 60vw;
+  height: 60vh;
+  font-size: 1.3rem;
   z-index: 11;
   overflow: hidden;
   border-radius: 16px;
-  color: white;
   -webkit-box-shadow: 0 0 5px 0 rgba(1, 1, 1, 0.3);
           box-shadow: 0 0 5px 0 rgba(1, 1, 1, 0.3);
   -webkit-transition: -webkit-transform 900ms ease-in-out;
@@ -42,7 +398,7 @@
 }
 
 #alert-desc #alert-header p {
-  padding: 8px;
+  padding: 6px 14px;
 }
 
 #alert-desc #alert-flex {
@@ -64,7 +420,6 @@
   padding: 6px 0;
   text-align: center;
   border-bottom: 1px solid #22382d;
-  text-overflow: ellipsis;
 }
 
 #alert-desc #alert-flex #alert-text {
@@ -72,6 +427,7 @@
   width: calc(100% - 30%);
   background: #e68f8f;
   color: white;
+  overflow: auto;
 }
 
 #alert-desc #alert-flex #alert-text p {

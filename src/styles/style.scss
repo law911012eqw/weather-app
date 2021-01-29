@@ -1,29 +1,56 @@
 $main-font-family: 'Ubuntu', monospace; //main font
+$base-font-sz: 12px;
 
 //heights and widths
 $upper-main-height: 68vh;
-//background-colors
-$upper-morning-bg: rgb(255, 195, 16);
-$lower-morning-bg: rgb(242, 174, 28);
+$lower-main-height: 25vh;
 
-//list of color basedon temperature and current hour
-// warm < ------ > cool
-$morns: rgb(255, 195, 16), rgb(248, 185, 23),rgb(242, 174, 28),rgb(218, 174, 16);
-$noon: rgb(45, 195, 16);
+//reusable styles
+//custom approach for title attribute using atr
+@mixin custom-text-hover {
+    position: absolute;
+    content: attr(data-text);
+    bottom: -3.5em;
+    left: -5em;
+    background-color: #333;
+    color: white;
+    padding: .25em .5em;
+    font-size: .8em;
+    font-family: $main-font-family;
+  }
 
+*,
+*::before,
+*::after{
+    box-sizing: inherit;
+    padding: 0;
+    margin: 0;
+}
 body{
     font-family: $main-font-family;
     color: white;
     -webkit-user-select: none;
     -moz-user-select: none;
     user-select: none;
+    font-size: $base-font-sz;
 }
 form{
     padding-top: 9px;
     padding-bottom: 19px;
     text-align: center;
 }
+img{
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+    object-position: bottom;
+}
+
+#content{
+    overflow: auto;
+}
 #modal{
+    display: none;
     position: absolute;
     left:0;
     top:0;
@@ -33,13 +60,16 @@ form{
     z-index: 10;
 }
 #main-header{
+    height: 6vh;
     background: rgb(43,36,22);
     background: linear-gradient(210deg, rgba(43,36,22,1) 0%, rgba(149,104,93,1) 41%, rgba(222,176,156,1) 84%);  
+}
+#forecast-header{
+    display: none;
 }
 #upper-main{
     display: flex;
     flex-direction: row;
-    background: $upper-morning-bg;
     height: $upper-main-height;
     width:100%;
 }
@@ -48,52 +78,84 @@ form{
     height: inherit;
 }
 
-// DAILY-SECTION
+/*********** DAILY WEATHER SECTION *********/
 #daily-main{
     display: flex;
-    background: rgb(248, 185, 23);
-    #daily-container{
+    flex-wrap: wrap;
+    justify-content: space-around;
+    height: $upper-main-height;
+    align-items: center;
+    // background: rgb(248, 185, 23);
+    .daily-wrappers{
         display: flex;
-        flex-wrap: wrap;
-        height: $upper-main-height;
-        width: 100%;
+        flex-direction: column;
+        justify-content: center;
         align-items: center;
-        .daily-wrappers{
+        width: 28%;
+        font-size: clamp(1rem, 1vw, 2rem); 
+        .daily-lower {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 28%;
-            font-size: 20px;
+            justify-content: space-around;
+            width: 100%;
+            div {
+                display: flex;
+                flex-direction: column;
+                div{
+                    display: flex;
+                    flex-direction: row;
+                }
+            }
         }
     }
 }
 .daily-temps{
-    font-size: 30px;
+    font-size: clamp(1.4rem, 1.8vw, 3rem); 
+    font-weight: 700;
     padding: 10px;
 }
-//current weather
+.daily-feels{
+    opacity: 0.7;
+}
+.daily-contents{
+    margin: 0 5px;
+}
+
+/*******CURRENT WEATHER SECTION *******/
+#current-main{
+    // background: $upper-morning-bg;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
 #current-temp{
-    font-size: 14vw;
+    font-size: clamp(4.2rem, 11.5vw, 50rem); 
     text-align: center;
     margin: 20px 0;
 }
 #current-upper{
     display: flex;
     justify-content: space-between;
+    #current-upper-left > *{
+        font-size: clamp(1.2rem, 2.5vw, 4rem); 
+        #current-location {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+    #current-upper-right{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 2vw;
+    }
 }
-#current-upper-right{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2vw;
-}
+
 #current-icon {
     display: block;
     margin-left: 5px;
 }
 .current-contents{
-    font-size: 30px;
+    font-size: clamp(1.4rem, 2.0vw, 3rem); 
     margin-left: 5px;
     margin-top: 5px;
 }
@@ -104,16 +166,22 @@ form{
 #current-lower {
     display: flex;
     justify-content: space-between;
+    #current-lower-right > * {
+        text-align: end;
+    }
 }
-//hourly weather
+
+/********HOURLY WEATHER SECTION *********/
 #lower-main{
     display: flex;
     flex-direction: row;
-    background: $lower-morning-bg;
+    // background: $lower-morning-bg;
     height:25vh;
     width:100%;
     .hrly-contents > *{
-        text-align: center;
+        display: flex;
+        font-size: clamp(0.8rem, 1.1vw, 2.4em); 
+        justify-content: center;
     }
     .hrly-icons {
         display: block;
@@ -121,8 +189,15 @@ form{
     }
     .hrly-temp, .hrly-time{
         margin-top: 8px;
-        text-align: center;
-        font-size: 24px;
+        font-size: clamp(1rem, 1.5vw, 4rem); 
+    }
+    .hrly-lower{
+        display: flex;
+        justify-content: space-around;
+        div {
+            display: flex;
+            align-items: center;
+        }
     }
 }
 #lower-main > div {
@@ -130,6 +205,40 @@ form{
     height: inherit;
 }
 .choose-temp:hover{
-    text-decoration: underline;
-    padding-right: 20px;
+    border: 2px solid rgba(0,0,0,0.3);
+}
+.choose-temp{
+    width: 70px;
+    border: 2px solid rgba(0,0,0,0.1);
+    margin-right: 20px;
+}
+
+/********** ICONS/GIF ************/
+#user-location{
+    transform: scale(1.4);
+    margin: 0 15px;
+    cursor: pointer;
+}
+
+#user-location:hover::after{
+    @include custom-text-hover;
+}
+.img-feels{
+    width: 12px;
+    height: 24px;
+}
+.img-spd, .img-deg{
+    width: 24px;
+    height: 24px;
+    opacity: 0.6;
+}
+.img-humidity{
+    filter: invert(26%) sepia(85%) saturate(1799%) hue-rotate(201deg) brightness(86%) contrast(90%);
+}
+.loading-gif{
+    position: absolute;
+    width: 23px;
+    height: 23px;
+    top: 45%;
+    left: 50%;
 }

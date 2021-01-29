@@ -1,0 +1,84 @@
+@import './style.scss';
+
+$i: 1;
+
+@media ( max-width: 1324px ) {
+    #alert-desc {
+        font-size: 1.3rem;
+    }
+}
+@media ( max-width: 1024px ) {
+    #alert-desc {
+        font-size: 1.2rem;
+    }
+    .img-spd, .img-deg{
+        width: 19px;
+        height: 19px;
+        opacity: 0.6;
+    }
+    .img-humidity {
+        width: 19px;
+        height: 19px;
+    }
+    .img-feels{
+        width: 10.5px;
+        height: 21px;
+    }
+}
+@media ( max-width: 800px ) {
+    #alert-desc {
+        font-size: 1rem;
+    }
+    .img-spd, .img-deg{
+        width: 16px;
+        height: 16px;
+        opacity: 0.6;
+    }
+    .img-humidity {
+        width: 16px;
+        height: 16px;
+    }
+    .img-feels{
+        width: 8px;
+        height: 16px;
+    }
+}
+@media ( max-width: 543px ) {
+    #alert-desc {
+        font-size: 0.8rem;
+    }
+}
+@media ( min-width: 2560px) and (min-height: 1920px) {
+    .daily-icons, .hrly-icons{
+        width: 120px;
+        height: 120px;
+    }
+    .hrly-contents > *{
+        padding: 12px 0;
+    }
+}
+
+
+/***********  HEIGHTS  ***********/
+@media ( max-height: 600px ) {
+    .daily-icons, .hrly-icons{
+        width: 60px;
+        height: 60px;
+    }
+}
+@media screen and (orientation: portrait){
+    #upper-main{
+        width: 100%;
+        div {
+            width: inherit;
+        }
+    }
+    #daily-main{
+        display: none;
+    }
+    @for $i from 5 through 9{
+        .hrly-contents:nth-child(#{$i}){
+            display: none;
+        }
+    }
+}

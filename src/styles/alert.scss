@@ -1,3 +1,5 @@
+@import './style.scss';
+
 //background colors
 $alert-header-bg: rgb(218, 63, 63);
 $alert-text-bg:  rgb(230, 143, 143);
@@ -11,26 +13,30 @@ $alert-events-width: 30%;
     position: absolute;
     top: 1%;
     margin-left: 12px;
+    filter: invert(53%) sepia(74%) saturate(4896%) hue-rotate(337deg) brightness(99%) contrast(86%);
     width: 30px;
     height: 30px;
-    cursor: pointer;
     z-index: 10;
 }
 #alert-btn:hover{
     transform: rotateZ(14deg);
+    cursor: pointer;
     transition: transform 400ms linear;
+}
+#alert-btn:hover::after{
+    @include custom-text-hover;
 }
 //alert stuff
 #alert-desc {
-    position: absolute;
-    left: 30%;
-    top:20%;
-    width: 800px;
-    height: 500px;
+    position: fixed;
+    left: 20%;
+    top: 20%;
+    width: 60vw;
+    height: 60vh;
+    font-size: 1.3rem;
     z-index: 11;
     overflow: hidden; //force the child to copy parent's border radius
     border-radius: 16px;
-    color: white;
     box-shadow: 0 0 5px 0 rgba(1,1,1,0.3);
     //transition when exiting or when it is being displayed
     transition: transform 900ms ease-in-out; 
@@ -39,7 +45,7 @@ $alert-events-width: 30%;
         width: 100%;
         background: $alert-header-bg;
         p {
-            padding: 8px;
+            padding: 6px 14px
         }
     }
     #alert-flex{
@@ -55,7 +61,6 @@ $alert-events-width: 30%;
                 padding: 6px 0;
                 text-align: center;
                 border-bottom: 1px solid rgb(34,56,45);
-                text-overflow: ellipsis;
             }
         }
         #alert-text{
@@ -63,7 +68,7 @@ $alert-events-width: 30%;
             width: calc(100% - #{$alert-events-width});
             background: $alert-text-bg;
             color: white;
-            //overflow: auto;
+            overflow: auto;
             p{
                 padding: 15px 28px;
                 line-height: 1.5;
