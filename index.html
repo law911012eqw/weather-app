@@ -10,19 +10,31 @@
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap" rel="stylesheet">
 <body>
   <div id="content">
-    <img id="alert-btn" src="7efd0ac0c33c33338d98.svg">
+    <img id="alert-btn" src="7efd0ac0c33c33338d98.svg" data-text="click to dispaly alerts">
     <div id="main-header">
       <form>
-        <input id="city-input" type="text" placeholder="Enter the city..">
-        <input id="state-input" type="text" placeholder="Enter the state..">
-        <input id="country-input" type="text" placeholder="Enter the country..">
+        <i id="user-location" class="fas fa-map-marker" data-text="click for user location"></i>
+        <input id="area-input" type="text" placeholder="Enter the city/country..">
         <input type="submit" value="Search">
       </form>
     </div>
+    <div id="forecast-header">
+      <div id="switch-forecast">
+        <button id="left-btn" class="forecast-btn"></button>
+        <div id="current-forecast"></div>
+        <button id="right-btn" class="forecast-btn"></button>
+      </div>
+    </div>
     <div id="error"></div>
-    <div id="main"></div>
+    <div id="main">
+      <div id="upper-main"> 
+        <div id="current-main"></div>
+        <div id="daily-main"></div>
+      </div>
+      <div id="lower-main"> </div>
+    </div>
     <div id="modal">
-      <!-- <img src="./img/24.gif" alt="loading DOM elements"  width=100 height= 100/> -->
+      <img class ="loading-gif" src="c170133f8f7d7ca0beb2.gif" alt="loading DOM elements"/>
     </div>
     <div id="alert-desc">
       <div id="alert-header">
