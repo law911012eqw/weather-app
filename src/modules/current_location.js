@@ -4,7 +4,6 @@ export async function getAreaFromCoordinates({ lat, lon }) {
 	try {
 		const response = await fetch(URL);
 		const data = await response.json();
-		console.log(`Here: ${data}`);
 		return await data;
 	} catch (e) {
 		console.log(`Error: ${e}`);

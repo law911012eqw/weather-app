@@ -2,10 +2,13 @@
 const DOM = (() => {
 	const content = document.getElementById('content');
 	const main = document.getElementById('main');
+	const upperMain = document.getElementById('upper-main');
+	const lowerMain = document.getElementById('lower-main');
+	const currentMain = document.getElementById('current-main');
+	const dailyMain = document.getElementById('daily-main');
+	const userLocation = document.getElementById('user-location');
 	const debugOutput = document.getElementById('debug');
-	const cityInput = document.getElementById('city-input');
-	const stateInput = document.getElementById('state-input');
-	const countryInput = document.getElementById('country-input');
+	const areaInput = document.getElementById('area-input');
 	const form = document.querySelector('form');
 	const alertBtn = document.getElementById('alert-btn');
 	const alertDesc = document.getElementById('alert-desc');
@@ -16,10 +19,13 @@ const DOM = (() => {
 	return {
 		content,
 		main,
+		upperMain,
+		currentMain,
+		dailyMain,
+		lowerMain,
+		userLocation,
 		debugOutput,
-		cityInput,
-		stateInput,
-		countryInput,
+		areaInput,
 		form,
 		alertBtn,
 		alertDesc,
@@ -30,26 +36,10 @@ const DOM = (() => {
 		// not in the best state but its functionality format the string based
 		// on the condition
 		strInput() {
-			if (!countryInput.value) {
-				if (!stateInput.value) {
-					return `${cityInput.value}`;
-				}
-				return `${cityInput.value}, ${stateInput.value}`;
-			} if (!stateInput.value) {
-				if (!countryInput.value) {
-					return `${cityInput.value}`;
-				}
-				return `${cityInput.value}, ${countryInput.value}`;
-			} if (!cityInput.value) {
-				if (!countryInput.value) {
-					return `${stateInput.value}`;
-				}
-				return `${stateInput.value}, ${countryInput.value}`;
-			}
-			return `${cityInput.value}, ${stateInput.value}, ${countryInput.value}`;
+			return areaInput.value;
 		},
 		locationInput() {
-			const str = `${cityInput.value},${stateInput.value},${countryInput.value}`;
+			const str = `${areaInput.value}`;
 			// spaces are replace with '+' which is used for the string within URL
 			return str.split('').map((x) => (x == ' ' ? x = '+' : x)).join('');
 		},

@@ -4,8 +4,8 @@ import { LOCATION_API, WEATHER_API } from './server-route.js';
 // file for getting and setting [insert_string] directory name to complete URL
 const fetchData = (() => {
 	const part = 'minutely';
-	let lat = 1;
-	let lon = 1;
+	let lat;
+	let lon;
 	let searchArea;
 	let areaName;
 	return {
@@ -15,6 +15,8 @@ const fetchData = (() => {
 		},
 		setSearchArea(v) { searchArea = v; },
 		setAreaName(v) { areaName = v; },
+		getLat() { return lat; },
+		getLon() { return lon; },
 		getAreaName() { return areaName; },
 		getWeatherURL() {
 			const WEATHER_URL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=${part}&appid=${WEATHER_API}`;

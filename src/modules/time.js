@@ -42,11 +42,9 @@ function formatHourOnly(date, i) {
 	return strTime;
 }
 
-function accumulateDays(date, i) {
-	let day = date.getDays() + i;
-
+function getLocalHours(date) {
+	return date.getHours();
 }
-
 function formatFullDate(date) {
 	return date.toLocaleDateString('en-US', OPTIONS);
 }
@@ -59,4 +57,5 @@ export {
 	formatHourOnly,
 	formatFullDate,
 	formatShortDate,
+	getLocalHours,
 }
