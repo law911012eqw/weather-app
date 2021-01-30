@@ -10,6 +10,8 @@ const DOM = (() => {
 	const debugOutput = document.getElementById('debug');
 	const areaInput = document.getElementById('area-input');
 	const form = document.querySelector('form');
+	const error = document.getElementById('error');
+	const errorClose = document.getElementById('error-close');
 	const alertBtn = document.getElementById('alert-btn');
 	const alertDesc = document.getElementById('alert-desc');
 	const alertEvents = document.getElementById('alert-events');
@@ -27,6 +29,8 @@ const DOM = (() => {
 		debugOutput,
 		areaInput,
 		form,
+		error,
+		errorClose,
 		alertBtn,
 		alertDesc,
 		alertEvents,

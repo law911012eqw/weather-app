@@ -1,5 +1,5 @@
-//convert dates by the appropriate local timezone
-//object used to format dates
+// convert dates by the appropriate local timezone
+// object used to format dates
 const OPTIONS = {
 	weekday: 'long',
 	year: 'numeric',
@@ -22,23 +22,23 @@ function formatHourMin(date) {
 	let minutes = date.getMinutes();
 	let seconds = date.getSeconds();
 	const ampm = hours >= 12 ? 'pm' : 'am';
-	hours = hours % 12;
+	hours %= 12;
 	hours = hours ? hours : 12; // the hour '0' should be '12'
-	minutes = ('0'+minutes).slice(-2);
-	seconds = ('0'+seconds).slice(-2);
-	const strTime = hours + ':' + minutes + ':' + seconds + ' ' + ampm;
+	minutes = ('0' + minutes).slice(-2);
+	seconds = ('0' + seconds).slice(-2);
+	const strTime = `${hours}:${minutes}:${seconds} ${ampm}`;
 	return strTime;
 }
 
-//format -> HH AM/PM
+// format -> HH AM/PM
 function formatHourOnly(date, i) {
 	let hours = date.getHours() + i;
-	let hoursNextDay = (hours-24); //change the variable if is passed 11pm
+	const hoursNextDay = (hours - 24); //change the variable if is passed 11pm
 	hours > 23 ? hours = 0 + hoursNextDay : hours;
 	let ampm = hours >= 12 ? 'pm' : 'am';
-	hours = hours % 12;
+	hours %= 12;
 	hours = hours ? hours : 12; // the hour '0' should be '12'
-	let strTime = hours + ' ' + ampm;
+	const strTime = `${hours} ${ampm}`;
 	return strTime;
 }
 
