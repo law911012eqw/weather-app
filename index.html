@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1>
 <link rel="icon" href="umbrella.svg"></head>
 <title>Check today's weather..</title>
 <script src="https://kit.fontawesome.com/ed247afa0e.js" crossorigin="anonymous"></script>
@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap" rel="stylesheet">
 <body>
   <div id="content">
-    <img id="alert-btn" src="7efd0ac0c33c33338d98.svg" data-text="click to dispaly alerts">
+    <img id="alert-btn" src="7efd0ac0c33c33338d98.svg">
     <div id="main-header">
       <form>
         <i id="user-location" class="fas fa-map-marker" data-text="click for user location"></i>
@@ -25,7 +25,6 @@
         <button id="right-btn" class="forecast-btn"></button>
       </div>
     </div>
-    <div id="error"></div>
     <div id="main">
       <div id="upper-main"> 
         <div id="current-main"></div>
@@ -35,6 +34,12 @@
     </div>
     <div id="modal">
       <img class ="loading-gif" src="c170133f8f7d7ca0beb2.gif" alt="loading DOM elements"/>
+    </div>
+    <div id="error">
+      <div id="error-header"></div>
+      <img id="error-icon" src="7d27a1b7ca45bf99ce03.png" >
+      <p id="error-text">No such location exists. </p>
+      <button id="error-close">Close</button>
     </div>
     <div id="alert-desc">
       <div id="alert-header">
