@@ -9,6 +9,10 @@ $alert-events-bg: rgb(237, 163, 163);
 $alert-header-height: 30px;
 $alert-events-width: 30%;
 
+button{
+    cursor: pointer;
+}
+/********** ALERT SECTION **********/
 #alert-btn{
     position: absolute;
     top: 1%;
@@ -26,8 +30,8 @@ $alert-events-width: 30%;
 #alert-btn:hover::after{
     @include custom-text-hover;
 }
-//alert stuff
 #alert-desc {
+    display: none;
     position: fixed;
     left: 20%;
     top: 20%;
@@ -90,8 +94,10 @@ $alert-events-width: 30%;
     box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.2);
 }
 
+// slide down transition
 .slideDown {
     transform: translate(0px, -2999px);
+    display: block;
     & {
         overflow: hidden;
     }
@@ -106,4 +112,52 @@ $alert-events-width: 30%;
 
 .active-state{
     box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
+}
+
+/********** ERROR SECTION **********/
+#error {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    left: 30%;
+    top: 30%;
+    width: 40vw;
+    height: 40vh;
+    font-size: 1.3rem;
+    z-index: 11;
+    background: white;
+    transition: transform 200ms linear;
+    #error-header{
+        background: linear-gradient(#eb3349, #f45c43);
+        height: 1.4vh;
+        width: 100%;
+    }
+    p {
+        color: rgb(34,56,54);
+        font-size: 1.3rem;
+    }
+    img {
+        width: 64px;
+    }
+    button{
+        margin-bottom: 30px;
+        width: 40%;
+        height: 5vh;
+        background: linear-gradient(#f14d60, #f35f48);
+        color: white;
+    }
+    button:hover{
+        box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.1);
+    }
+}
+
+// classes to transitionally hide the error element
+.hideUsingScaleZero {
+    transform: scale(0) translate(50%, 50%);
+}
+
+.showUsingScaleOne {
+    transform: scale(1) translate(-50%, -50%);
 }

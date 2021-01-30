@@ -1,14 +1,56 @@
 @import './style.scss';
+@import './alert.scss';
 
 $i: 1;
+@mixin mobile-screens-without-daily{
+    #upper-main{
+        width: 100%;
+        div {
+            width: inherit;
+        }
+    }
+    #daily-main{
+        display: none;
+    }
+    @for $i from 5 through 9{
+        .hrly-contents:nth-child(#{$i}){
+            display: none;
+        }
+    }
+}
+
+@mixin mobile-screens-without-hourly{
+    #main-header{
+        height: 50px;
+    }
+    #main{
+        overflow: auto;
+    }
+    #upper-main{
+        height: 84vh;
+        #current-main {
+            height: inherit;
+        }
+    }
+    #daily-main{
+        height: 100%;
+        overflow: auto;
+    }
+    #lower-main{
+        display: none;
+    }
+    .img-spd, .img-deg, .img-humidity, .img-feels{
+        visibility: hidden;
+    }
+}
 
 @media ( max-width: 1324px ) {
-    #alert-desc {
+    #alert-desc, #error-text{
         font-size: 1.3rem;
     }
 }
 @media ( max-width: 1024px ) {
-    #alert-desc {
+    #alert-desc, #error-text {
         font-size: 1.2rem;
     }
     .img-spd, .img-deg{
@@ -26,7 +68,7 @@ $i: 1;
     }
 }
 @media ( max-width: 800px ) {
-    #alert-desc {
+    #alert-desc, #error-text {
         font-size: 1rem;
     }
     .img-spd, .img-deg{
@@ -44,7 +86,7 @@ $i: 1;
     }
 }
 @media ( max-width: 543px ) {
-    #alert-desc {
+    #alert-desc, #error-text {
         font-size: 0.8rem;
     }
 }
@@ -58,7 +100,6 @@ $i: 1;
     }
 }
 
-
 /***********  HEIGHTS  ***********/
 @media ( max-height: 600px ) {
     .daily-icons, .hrly-icons{
@@ -67,18 +108,36 @@ $i: 1;
     }
 }
 @media screen and (orientation: portrait){
-    #upper-main{
-        width: 100%;
-        div {
-            width: inherit;
-        }
+    @include mobile-screens-without-daily;
+}
+@media (max-height: 420px){
+    @include mobile-screens-without-hourly;
+}
+
+// error element is always in the center without interruption
+// on mobile devices
+@mixin error-viewport-portrait-size{
+    #error {
+        width: calc(100% - 100px);
+        max-height: calc(100% - 180px);
+        top: 50%;
+        left: 50%;
     }
-    #daily-main{
-        display: none;
+}
+
+@mixin error-viewport-landscape-size{
+    #error {
+        max-width: calc(100% - 150px);
+        height: calc(100% - 150px);
+        top: 50%;
+        left: 50%;
     }
-    @for $i from 5 through 9{
-        .hrly-contents:nth-child(#{$i}){
-            display: none;
-        }
-    }
+}
+
+@media screen and (orientation: portrait){
+    @include error-viewport-portrait-size;
+}
+
+@media (max-height: 420px) and (max-width: 812px) {
+    @include error-viewport-landscape-size;
 }

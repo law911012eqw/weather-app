@@ -1,14 +1,14 @@
 // modules
-import fetchData from './modules/fetch_data.js';
-import DOM from './modules/elements.js';
-import manage from './modules/helpers.js';
+import fetchData from './modules/fetch_data';
+import DOM from './modules/elements';
+import manage from './modules/helpers';
 import {
 	checkTempUnit,
 	toggleTemp,
 	convertTemp,
 	windSpeedToMPH,
 	windDegToDir,
-} from './modules/units.js';
+} from './modules/units';
 import {
 	convertTZ,
 	formatHourMin,
@@ -16,10 +16,10 @@ import {
 	formatFullDate,
 	formatShortDate,
 	getLocalHours,
-} from './modules/time.js';
-import { getAreaFromCoordinates } from './modules/current_location.js';
-import { getAlert, toggleDisplay } from './modules/alert.js';
-import bgManipulation from './modules/bg_change.js';
+} from './modules/time';
+import { getAreaFromCoordinates } from './modules/current_location';
+import { getAlert, toggleDisplay } from './modules/alert';
+import bgManipulation from './modules/bg_change';
 
 // styles
 import './styles/reset.css';
@@ -36,9 +36,18 @@ import iconCompass from './img/compass-regular.svg';
 // the only global variable
 let weatherData; // used later to assing data on this var
 
+document.onreadystatechange = () => {
+	DOM.error.style.visibility = 'hidden';
+};
+
 // display default
 window.onload = () => {
 	defaultLocation();
+};
+
+DOM.areaInput.onfocus = () => {
+	window.scrollTo(0, 0);
+	document.body.scrollTop = 0;
 };
 
 // ask the user for a permission to collect the former's coordinates
@@ -64,9 +73,10 @@ function fetchCoordinatesToGetArea(lat, lon) {
 	fetchData.setCoordinates(lat, lon);
 	return getAreaFromCoordinates({ lat, lon });
 }
+
 // assign the user's location as current
 async function assignUserLocation(data) {
-	let areaName = locationNameByAPI(data);
+	const areaName = locationNameByAPI(data);
 	fetchData.setAreaName(areaName);
 	try {
 		await fetchWeatherData(fetchData.getWeatherURL());
@@ -94,13 +104,15 @@ function locationNameByAPI(data) {
 	} else if (data.staddress && data.state) {
 		areaName = `${data.staddress}, ${data.state}`;
 	} else if (data.prov) {
-		`${data.staddress}, ${data.prov}`
+		areaName = `${data.staddress}, ${data.prov}`;
 	} else {
 		areaName = data.region;
 	}
 	return areaName;
 }
+
 // use default location if the user disallow the humble permission
+// it is used after window.onload
 async function defaultLocation() {
 	const lat = 90;
 	const lon = 0;
@@ -123,21 +135,40 @@ DOM.form.onsubmit = async (e) => {
 	fetchData.setAreaName(DOM.strInput());
 	try {
 		await getCoordinates(fetchData.getLocationURL());
-	}
-	catch (error) {
+	} catch (error) {
 		console.log(error);
 	}
 };
 
+// event listeners
 DOM.alertClose.addEventListener('click', toggleDisplay);
 DOM.alertBtn.addEventListener('click', toggleDisplay);
+DOM.errorClose.addEventListener('click', () => {
+	DOM.error.classList.add('hideUsingScaleZero');
+	DOM.error.classList.remove('showUsingScaleOne');
+	if (DOM.modal.style.display === 'block') {
+		DOM.modal.style.display = 'none';
+	}
+});
+
+function errorDisplay(data) {
+	if (DOM.areaInput.value === '' || data.error) {
+		DOM.error.style.visibility = 'visible';
+		DOM.error.classList.remove('hideUsingScaleZero');
+		DOM.error.classList.add('showUsingScaleOne');
+	}
+}
 // get the coordinates
 async function getCoordinates(data) {
 	const response = await fetch(data, { mode: 'cors' });
 	const locationData = await response.json();
+	console.log(locationData);
+	errorDisplay(locationData); // if it is undefined then display error
 	fetchData.setCoordinates(locationData[0].lat, locationData[0].lon);
 	const dataForAreaName = await fetchCoordinatesToGetArea(fetchData.getLat(), fetchData.getLon());
 	const areaNameByAPI = locationNameByAPI(dataForAreaName);
+
+	// if it returns undefined, used the input value as the area name instead
 	if (areaNameByAPI === undefined) {
 		fetchData.setAreaName(DOM.strInput());
 	} else {
@@ -151,17 +182,20 @@ async function getCoordinates(data) {
 	}
 }
 
-// fetch the data and display it
+// fetch the data coming from API and display it
 async function fetchWeatherData(data) {
 	const response = await fetch(data, { mode: 'cors' });
 	weatherData = await response.json();
 	displayInfo();
+	// undisplay the modal if it is displayed
+	// Note: used for loading effects while the data is not yet displayed
 	if (DOM.modal.style.display === 'block') {
 		DOM.modal.style.display = 'none';
 	}
 	getAlert(weatherData); // get alert data
 }
 
+// print the data on each following divs
 const getHourlyData = (parent) => {
 	for (let i = 0; i < 9; i++) {
 		displayHourlyOutput(i, parent);
@@ -174,8 +208,8 @@ function displayHourlyOutput(i, parent) {
 	let { temp } = weatherData.hourly[(i + 1) + i];
 	let feelsLike = weatherData.hourly[(i + 1) + i].feels_like;
 
-	const icon = weatherData.hourly[(i + 1) + i].weather[0].icon;
-	const humidity = weatherData.hourly[(i + 1) + i].humidity + '%';
+	const { icon } = weatherData.hourly[(i + 1) + i].weather[0];
+	const humidity = `${weatherData.hourly[(i + 1) + i].humidity}%`;
 	const { timezone } = weatherData;
 	const date = convertTZ(new Date(), timezone);
 
@@ -267,13 +301,13 @@ function displayDailyOutput(i, parent) {
 
 // display the weather data about the current hour/day
 function displayCurrentOutput(parent) {
-	const icon = weatherData.current.weather[0].icon;
-	const timezone = weatherData.timezone;
-	const date = convertTZ(new Date, timezone);
+	const { icon } = weatherData.current.weather[0];
+	const { timezone } = weatherData;
+	const date = convertTZ(new Date(), timezone);
 
-	let temp = weatherData.current.temp;
+	let { temp } = weatherData.current;
 	let feels = weatherData.current.feels_like;
-	const humidity = weatherData.current.humidity;
+	const { humidity } = weatherData.current;
 	const speed = `${windSpeedToMPH(weatherData.current.wind_speed)} mph :Wind Speed`;
 	const deg = `${windDegToDir(weatherData.current.wind_deg)} :Wind Degree`;
 	// temp conversion
@@ -343,7 +377,7 @@ function getWeatherIcon(icon) {
 // update clock every 1000ms = 1second
 function updateClock() {
 	const { timezone } = weatherData;
-	const date = convertTZ(new Date, timezone);
+	const date = convertTZ(new Date(), timezone);
 	const currentTime = document.getElementById('current-time');
 	currentTime.textContent = formatHourMin(date);
 	setTimeout(updateClock, 1000);

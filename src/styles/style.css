@@ -32,10 +32,6 @@ img {
      object-position: bottom;
 }
 
-#content {
-  overflow: auto;
-}
-
 #modal {
   display: none;
   position: absolute;
@@ -294,6 +290,7 @@ img {
   width: 70px;
   border: 2px solid rgba(0, 0, 0, 0.1);
   margin-right: 20px;
+  font-size: clamp(1.2rem, 2.5vw, 4rem);
 }
 
 /********** ICONS/GIF ************/
